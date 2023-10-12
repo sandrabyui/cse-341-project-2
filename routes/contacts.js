@@ -2,16 +2,17 @@ const express =require('express');
 const router =express.Router();
 
 const contactsController =require('../controllers/contacts');
+const { isAuthenticated } = require('../helpers/authenticate');
 
-router.get('/', contactsController.getALL);
+router.get('/', contactsController.getAllContacts);
 
-router.get('/:id', contactsController.getSingle);
+router.get('/:id', contactsController.getSingleContact);
 
-router.post('/', contactsController.createContacts);
+router.post('/', isAuthenticated, contactsController.createContact);
 
-router.put('/', contactsController.updateContacts);
+router.put('/:id', isAuthenticated, contactsController.updateContact);
 
-router.delete('/', contactsController.deleteContacts);
+router.delete('/:id',isAuthenticated, contactsController.deleteContact);
 
 
 module.exports = router;

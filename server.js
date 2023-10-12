@@ -8,8 +8,6 @@ const cors = require('cors');
 
 
 
-
-
 const port = process.env.PORT || 3002;
 const app = express();
 
@@ -50,10 +48,13 @@ function(accessToken, refreshToken, profile, done){
 
 ));
 
-
 passport.serializeUser((user, done) =>{
     done(null, user);
 });
+
+passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
 
 app.get('/', (req, res) =>{res.send(req.session.user !== undefined ? `logged in as ${req. session.user.displayName}`:"logged out" )});
 
@@ -66,12 +67,10 @@ app.get('/gethub/callback',passport.authenticate('github',{
 
 
 
-process.on('uncaughtException',(err, origin) =>{
-    console.log(process.stderr.fd,`Caught exception: ${err}\n'+'Exception origin: ${origin}` );
+//process.on('uncaughtException',(err, origin) =>{
+    //console.log(process.stderr.fd,`Caught exception: ${err}\n'+'Exception origin: ${origin}` );
 
-});
-
-
+//});
 
 
 mongodb.initDb((err)=>{
